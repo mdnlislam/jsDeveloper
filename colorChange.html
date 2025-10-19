@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 2px solid green;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .container {
+        display: flex;
+        gap: 70px;
+        justify-content: center;
+        margin-top: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2 style="text-align: center">Bismillah</h2>
+    <div class="container">
+      <div class="circle" id="c1" style="background: red"></div>
+      <div class="circle" id="c2" style="background: green"></div>
+    </div>
+
+    <script>
+      const c1 = document.querySelector("#c1");
+      const c2 = document.querySelector("#c2");
+
+      function swapColors() {
+        const temp = c1.style.background;
+        c1.style.background = c2.style.background;
+        c2.style.background = temp;
+      }
+
+      // যে কোন বৃত্তে ক্লিক করলে swap হবে
+      c1.addEventListener("click", swapColors);
+      c2.addEventListener("click", swapColors);
+    </script>
+  </body>
+</html>
