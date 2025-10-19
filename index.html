@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      .border {
+        border: 2px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Alhamdulillah</h2>
+
+    <form action="#" class="submit">
+      <div class="border">
+        <input class="value" type="text" name="name" placeholder="Name" />
+        <input class="value" type="email" name="email" placeholder="Email" />
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </body>
+
+  <script>
+    const submit = document.querySelector(".submit");
+    const input = document.querySelector(".value");
+
+    submit.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const inputs = submit.querySelectorAll(".value");
+
+      const data = {};
+      inputs.forEach((input) => {
+        data[input.name] = input.value;
+      });
+      console.log(data);
+      submit.reset();
+    });
+  </script>
+</html>
