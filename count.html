@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style></style>
+  </head>
+  <body>
+    <h3>Alhamdulillah</h3>
+    <div style="border: 2px solid green; text-align: center; font-size: 24px">
+      <p class="incres">+</p>
+      <p class="count">0</p>
+      <p class="descre">-</p>
+    </div>
+  </body>
+
+  <script>
+    const ine = document.querySelector(".incres");
+
+    const des = document.querySelector(".descre");
+    const coun = document.querySelector(".count");
+    let num = Number(coun.innerText);
+    ine.addEventListener("click", function () {
+      num += 1;
+
+      if (num > 10) {
+        num = 10;
+      }
+      coun.innerText = num;
+    });
+
+    des.addEventListener("click", function () {
+      num -= 1;
+
+      if (num < 0) {
+        num = 0;
+      }
+      coun.innerText = num;
+    });
+  </script>
+</html>
