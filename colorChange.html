@@ -29,15 +29,13 @@
       const c1 = document.querySelector("#c1");
       const c2 = document.querySelector("#c2");
 
-      function swapColors() {
-        const temp = c1.style.background;
+      function colorwerper() {
+        const web = c1.style.background;
         c1.style.background = c2.style.background;
-        c2.style.background = temp;
+        c2.style.background = web;
       }
-
-      // যে কোন বৃত্তে ক্লিক করলে swap হবে
-      c1.addEventListener("click", swapColors);
-      c2.addEventListener("click", swapColors);
+      c1.addEventListener("click", colorwerper);
+      c2.addEventListener("click", colorwerper);
     </script>
   </body>
 </html>
