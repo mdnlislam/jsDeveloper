@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <style>
+      .message_display {
+        border: 2px solid red;
+        height: 230px;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div>
+        <div class="message_display"></div>
+      </div>
+
+      <form action="#" id="submit">
+        <input
+          type="text"
+          placeholder="Enter a new message"
+          class="writeText"
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      const display = document.querySelector(".message_display");
+      const form = document.querySelector("#submit");
+      console.log(display, Text);
+
+      form.addEventListener("submit", function () {
+        const input = document.querySelector(".writeText");
+        const text = input.value;
+        const value = `<h2>${text}</h2>`;
+        // console.log(Text.value);
+        display.insertAdjacentHTML("beforeend", value);
+        input.value = "";
+      });
+    </script>
+  </body>
+</html>
