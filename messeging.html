@@ -8,12 +8,21 @@
         height: 230px;
         width: 300px;
       }
+      .msgBox {
+        display: flex;
+        align-items: center;
+      }
+      .delBtn,
+      .editBtn {
+        width: 8px;
+        height: 8px;
+      }
     </style>
   </head>
   <body>
     <div>
       <div>
-        <div class="message_display"></div>
+        <div class="message_display" style="overflow: auto"></div>
       </div>
 
       <form action="#" id="submit">
@@ -29,15 +38,81 @@
     <script>
       const display = document.querySelector(".message_display");
       const form = document.querySelector("#submit");
-      console.log(display, Text);
 
-      form.addEventListener("submit", function () {
+      //  store messag
+      let message = [];
+      //  store messag
+
+      function showMessages() {
+        display.innerHTML = "";
+
+        message.forEach((msg) => {
+          display.insertAdjacentHTML(
+            "beforeend",
+            `
+                    <div class="msgBox">
+                      <h2>${msg.text}</h2>
+                      <button class="editBtn" data-id="${msg.id}">X</button>
+                      <button class="delBtn" data-id="${msg.id}">X</button>
+                    </div>
+                  `
+          );
+        });
+      }
+
+      // message show
+
+      // input message collection
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
         const input = document.querySelector(".writeText");
         const text = input.value;
-        const value = `<h2>${text}</h2>`;
-        // console.log(Text.value);
-        display.insertAdjacentHTML("beforeend", value);
+
+        if (text.trim() === "") return;
+
+        const newMsg = {
+          id: Date.now(),
+          text: text,
+        };
+
+        message.push(newMsg);
         input.value = "";
+
+        showMessages();
+      });
+
+      // delete button
+
+      display.addEventListener("click", function (e) {
+        if (e.target.classList.contains("delBtn")) {
+          const deleteId = Number(e.target.dataset.id);
+
+          // filter  with delete
+
+          message = message.filter((item) => item.id !== deleteId);
+          showMessages();
+        }
+      });
+
+      //edit
+      display.addEventListener("click", function (e) {
+        if (e.target.classList.contains("editBtn")) {
+          // কোন মেসেজ এডিট হবে সেটার আইডি নাও
+          const id = Number(e.target.dataset.id);
+
+          // মেসেজ খুঁজে নাও
+          const msg = message.find((m) => m.id === id);
+
+          // ইউজারকে নতুন মেসেজ দিতে বলো
+          const newText = prompt("Edit your message:", msg.text);
+
+          // যদি নতুন টেক্সট থাকে, মেসেজ চেঞ্জ করো
+          if (newText) {
+            msg.text = newText;
+            showMessages(); // মেসেজ দেখাও
+          }
+        }
       });
     </script>
   </body>
