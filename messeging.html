@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
   <head>
     <style>
@@ -8,14 +7,14 @@
         height: 230px;
         width: 300px;
       }
-      .msgBox {
+      .parent {
         display: flex;
-        align-items: center;
+        justify-content: space-between;
+        padding: 5px;
       }
-      .delBtn,
-      .editBtn {
-        width: 8px;
-        height: 8px;
+      .delete {
+        color: red;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -36,84 +35,76 @@
     </div>
 
     <script>
-      const display = document.querySelector(".message_display");
       const form = document.querySelector("#submit");
+      const display = document.querySelector(".message_display");
+      const input = document.querySelector(".writeText");
 
-      //  store messag
+      let id = 1;
       let message = [];
-      //  store messag
+      let editId = null;
 
-      function showMessages() {
-        display.innerHTML = "";
-
-        message.forEach((msg) => {
-          display.insertAdjacentHTML(
-            "beforeend",
-            `
-                    <div class="msgBox">
-                      <h2>${msg.text}</h2>
-                      <button class="editBtn" data-id="${msg.id}">X</button>
-                      <button class="delBtn" data-id="${msg.id}">X</button>
-                    </div>
-                  `
-          );
-        });
-      }
-
-      // message show
-
-      // input message collection
       form.addEventListener("submit", function (e) {
         e.preventDefault();
-
-        const input = document.querySelector(".writeText");
         const text = input.value;
 
-        if (text.trim() === "") return;
+        // editing
 
-        const newMsg = {
-          id: Date.now(),
+        if (editId !== null) {
+          message = message.map((item) =>
+            item.id === editId ? { ...item, text: text } : item
+          );
+          editId = null;
+          input.value = "";
+          render();
+          return;
+        }
+
+        const newMessage = {
+          id: id,
           text: text,
         };
 
-        message.push(newMsg);
+        message.push(newMessage);
+        id++;
         input.value = "";
 
-        showMessages();
+        render();
       });
 
-      // delete button
-
+      // DELETE
       display.addEventListener("click", function (e) {
-        if (e.target.classList.contains("delBtn")) {
-          const deleteId = Number(e.target.dataset.id);
+        const parent = e.target.closest(".parent");
+        const deleteId = Number(parent.id);
 
-          // filter  with delete
-
+        if (e.target.classList.contains("delete")) {
           message = message.filter((item) => item.id !== deleteId);
-          showMessages();
+
+          render(); // UI Update
+        }
+
+        if (e.target.classList.contains("edit")) {
+          const item = message.find((item) => item.id === deleteId);
+
+          input.value = item.text;
+          editId = deleteId;
+          console.log(editId, "alhamdulillah");
+
+          render();
         }
       });
 
-      //edit
-      display.addEventListener("click", function (e) {
-        if (e.target.classList.contains("editBtn")) {
-          // কোন মেসেজ এডিট হবে সেটার আইডি নাও
-          const id = Number(e.target.dataset.id);
-
-          // মেসেজ খুঁজে নাও
-          const msg = message.find((m) => m.id === id);
-
-          // ইউজারকে নতুন মেসেজ দিতে বলো
-          const newText = prompt("Edit your message:", msg.text);
-
-          // যদি নতুন টেক্সট থাকে, মেসেজ চেঞ্জ করো
-          if (newText) {
-            msg.text = newText;
-            showMessages(); // মেসেজ দেখাও
-          }
-        }
-      });
+      // Render function
+      function render() {
+        display.innerHTML = "";
+        message.forEach((item) => {
+          const html = `<div class='parent' id=${item.id}>
+              <p>${item.text}</p>
+              <p class='delete'>DELETE</p>
+              <p class='edit'>EDIT</p>
+            </div>`;
+          display.insertAdjacentHTML("beforeend", html);
+        });
+      }
     </script>
   </body>
 </html>
