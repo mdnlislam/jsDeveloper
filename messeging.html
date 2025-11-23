@@ -38,10 +38,10 @@
         // console.log("alhamdulillah", text);
 
         const html = `<div class="parent" id=${id} style='display:flex'>
-  <p class='text'>${text}</p>
-  <button class='edit'> Edit</button>
-  <button class='delete'> Delete</button>
-  </div>`;
+      <p class='text'>${text}</p>
+      <button class='edit'> Edit</button>
+      <button class='delete'> Delete</button>
+      </div>`;
 
         display.insertAdjacentHTML("beforeend", html);
         input.value = "";
@@ -51,16 +51,20 @@
       // -----Edit / Delete --------
 
       display.addEventListener("click", function (e) {
-        if (e.target.classList.contains("edit")) {
-          const parentDiv = e.target.parentElement;
-          const itemid = parentDiv.getAttribute("id");
+        const parentDiv = e.target.parentElement;
 
+        const itemid = parentDiv.getAttribute("id");
+
+        if (e.target.classList.contains("edit")) {
           const oldtext = parentDiv.querySelector(".text").innerText;
 
           input.value = oldtext;
           edittext = itemid;
 
           console.log(edittext, "edit id");
+        }
+        if (e.target.classList.contains("delete")) {
+          document.getElementById(itemid).remove();
         }
       });
     </script>
