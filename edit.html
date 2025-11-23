@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+  <head> </head>
+
+  <body>
+    <div>
+      <h2>Alhamdulilah</h2>
+      <div
+        class="display_message"
+        style="border: 1px solid red; width: 350px; height: 150px"
+      ></div>
+
+      <form action="#" class="submit">
+        <input type="text" placeholder="Enter a Text" class="writeText" />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <script>
+      const display = document.querySelector(".display_message");
+      const form = document.querySelector(".submit");
+      const input = document.querySelector(".writeText");
+
+      let editText = null;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const text = input.value;
+
+        if (editText) {
+          editText.querySelector(".text").innerText = text;
+          editText = null;
+          //   console.log(
+          //     editText.querySelector(".text").innerText,
+          //     "edit function"
+          //   );
+        } else {
+          const html = `<div class='parent' style="display:flex;">
+            <p class='text'>${text}</p>
+            <button class='edit'>edit</button>
+            <button class="delete">DELETE</button>
+            </div>`;
+
+          display.insertAdjacentHTML("beforeend", html);
+
+          input.value = "";
+        }
+        input.value = "";
+      });
+
+      display.addEventListener("click", function (e) {
+        if (e.target.classList.contains("edit")) {
+          const parent = e.target.closest(".parent");
+
+          const oldtext = parent.querySelector(".text").innerText;
+          input.value = oldtext;
+          editText = parent;
+          console.log(editText, "vvvvvvv");
+        }
+
+        //delete
+
+        if (e.target.classList.contains("delete")) {
+          e.target.closest(".parent").remove();
+        }
+      });
+      //    edit function
+    </script>
+  </body>
+</html>
