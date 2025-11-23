@@ -1,110 +1,68 @@
 <!DOCTYPE html>
+
 <html>
-  <head>
-    <style>
-      .message_display {
-        border: 2px solid red;
-        height: 230px;
-        width: 300px;
-      }
-      .parent {
-        display: flex;
-        justify-content: space-between;
-        padding: 5px;
-      }
-      .delete {
-        color: red;
-        cursor: pointer;
-      }
-    </style>
-  </head>
+  <head> </head>
+
   <body>
     <div>
-      <div>
-        <div class="message_display" style="overflow: auto"></div>
-      </div>
+      <h2>Alhamdulilah</h2>
+      <div
+        class="display_message"
+        style="border: 1px solid red; width: 350px; height: 150px"
+      ></div>
 
-      <form action="#" id="submit">
-        <input
-          type="text"
-          placeholder="Enter a new message"
-          class="writeText"
-        />
+      <form action="#" class="submit">
+        <input type="text" placeholder="Enter a Text" class="writeText" />
         <button type="submit">Submit</button>
       </form>
     </div>
-
     <script>
-      const form = document.querySelector("#submit");
-      const display = document.querySelector(".message_display");
+      const display = document.querySelector(".display_message");
+      const form = document.querySelector(".submit");
       const input = document.querySelector(".writeText");
-
       let id = 1;
-      let message = [];
-      let editId = null;
-
+      let edittext = null;
       form.addEventListener("submit", function (e) {
         e.preventDefault();
         const text = input.value;
 
-        // editing
-
-        if (editId !== null) {
-          message = message.map((item) =>
-            item.id === editId ? { ...item, text: text } : item
-          );
-          editId = null;
+        if (edittext) {
+          const item = document.getElementById(edittext);
+          item.querySelector(".text").innerText = text;
+          console.log(item, "edittxt");
           input.value = "";
-          render();
+          edittext = "";
           return;
         }
 
-        const newMessage = {
-          id: id,
-          text: text,
-        };
+        // console.log("alhamdulillah", text);
 
-        message.push(newMessage);
-        id++;
+        const html = `<div class="parent" id=${id} style='display:flex'>
+  <p class='text'>${text}</p>
+  <button class='edit'> Edit</button>
+  <button class='delete'> Delete</button>
+  </div>`;
+
+        display.insertAdjacentHTML("beforeend", html);
         input.value = "";
-
-        render();
+        id++;
       });
 
-      // DELETE
+      // -----Edit / Delete --------
+
       display.addEventListener("click", function (e) {
-        const parent = e.target.closest(".parent");
-        const deleteId = Number(parent.id);
-
-        if (e.target.classList.contains("delete")) {
-          message = message.filter((item) => item.id !== deleteId);
-
-          render(); // UI Update
-        }
-
         if (e.target.classList.contains("edit")) {
-          const item = message.find((item) => item.id === deleteId);
+          const parentDiv = e.target.parentElement;
+          const itemid = parentDiv.getAttribute("id");
 
-          input.value = item.text;
-          editId = deleteId;
-          console.log(editId, "alhamdulillah");
+          const oldtext = parentDiv.querySelector(".text").innerText;
 
-          render();
+          input.value = oldtext;
+          edittext = itemid;
+
+          console.log(edittext, "edit id");
         }
       });
-
-      // Render function
-      function render() {
-        display.innerHTML = "";
-        message.forEach((item) => {
-          const html = `<div class='parent' id=${item.id}>
-              <p>${item.text}</p>
-              <p class='delete'>DELETE</p>
-              <p class='edit'>EDIT</p>
-            </div>`;
-          display.insertAdjacentHTML("beforeend", html);
-        });
-      }
     </script>
   </body>
 </html>
